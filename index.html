@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İyi ki Doğdun Beyaz Papatyam</title>
+
+<style>
+body{
+margin:0;
+padding:0;
+background:linear-gradient(135deg,#ffffff,#f3f3f3);
+font-family:sans-serif;
+text-align:center;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+}
+
+#music{
+position:absolute;
+top:15px;
+}
+
+button{
+padding:8px 14px;
+margin:5px;
+border:none;
+border-radius:8px;
+background:#ff9eb5;
+color:white;
+cursor:pointer;
+font-size:14px;
+}
+
+#cake{
+font-size:100px;
+cursor:pointer;
+transition:0.3s;
+}
+
+#cake:active{
+transform:scale(1.2);
+}
+
+#countdown{
+font-size:70px;
+margin-top:15px;
+}
+
+.shake{
+animation:shake 0.4s;
+}
+
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-6px)}
+50%{transform:translateX(6px)}
+75%{transform:translateX(-6px)}
+100%{transform:translateX(0)}
+}
+
+#message{
+font-size:24px;
+max-width:90%;
+white-space:pre-wrap;
+margin-top:20px;
+min-height:120px;
+}
+
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+top:0;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(100vh) rotate(360deg); opacity:0;}
+}
+
+.flower{
+position:fixed;
+bottom:0;
+font-size:24px;
+animation:float 5s linear forwards;
+}
+
+@keyframes float{
+to{transform:translateY(-100vh); opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div id="music">
+<div>🎵 Pinhani – Dünyadan Uzak</div>
+<button onclick="window.open('https://www.youtube.com/results?search_query=Pinhani+Dunyadan+Uzak','_blank')">YouTube</button>
+<button onclick="window.open('https://open.spotify.com/search/Pinhani%20Dunyadan%20Uzak','_blank')">Spotify</button>
+</div>
+
+<div id="cake">🎂</div>
+<div id="countdown"></div>
+<div id="message"></div>
+
+<script>
+
+let cake = document.getElementById("cake");
+let countdownEl = document.getElementById("countdown");
+let messageEl = document.getElementById("message");
+
+cake.addEventListener("click", startCountdown);
+
+function startCountdown(){
+cake.removeEventListener("click", startCountdown);
+let count = 3;
+countdownEl.innerText = count;
+
+let interval = setInterval(()=>{
+count--;
+if(count > 0){
+countdownEl.innerText = count;
+document.body.classList.add("shake");
+setTimeout(()=>document.body.classList.remove("shake"),400);
+}else{
+clearInterval(interval);
+countdownEl.innerText = "";
+confetti();
+startMessage();
+}
+},1000);
+}
+
+function startMessage(){
+let text = "İyi ki doğdun beyaz papatyam. 🤍\n\nBelki seni bir buket papatya daha mutlu edebilir ama elimden ancak bu geldi.";
+let i = 0;
+
+let typing = setInterval(()=>{
+messageEl.innerText += text.charAt(i);
+i++;
+if(i >= text.length){
+clearInterval(typing);
+flowers();
+}
+},70);
+}
+
+function confetti(){
+for(let i=0;i<80;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*window.innerWidth+"px";
+c.style.background=["#ff69b4","#ffd700","#87cefa","#ff1493"][Math.floor(Math.random()*4)];
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),3000);
+}
+}
+
+function flowers(){
+for(let i=0;i<30;i++){
+let f=document.createElement("div");
+f.className="flower";
+f.innerText="🌼";
+f.style.left=Math.random()*window.innerWidth+"px";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),5000);
+}
+}
+
+</script>
+
+</body>
+</html>
